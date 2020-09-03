@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lists of Github users</title>
+    <style media="screen">
+      *{
+          box-sizing: border-box;
+      }
+      header{
+        text-align: center;
+      }
+      footer{
+
+        text-align: center;
+        font-size: 1.2vw;
+        padding-bottom: 2em;
+        font-weight: bold;
+      }
+
+      h1{
+          padding-top:2%;
+          font-size: 2.5vw;
+          word-spacing: 10px;
+          line-height: 20px;
+      }
+      h2{
+        padding-bottom:2%;
+        background-color:#fff;
+        line-height: 10px;
+      }
+      hr {
+        margin-bottom: 3rem;
+        margin-top: 3rem;
+      }
+
+      button{
+        font-size: 1.5vw;
+        cursor:pointer;
+        width:20vw;
+        border-radius: 2px;
+        margin-top: 4px;
+      }
+
+      li{
+        list-style:none;
+      }
+      #showme{
+        margin:10%;
+      }
+      #individual{
+        border:2px solid blue;
+        margin:2%;
+        background-color: #dcee79;
+        overflow:auto;
+      }
+      #sub-individual{
+        display: inline-block;
+        background-color: #fff;
+        padding-right:10%;
+        margin-bottom:5%;
+        margin-top:5%;
+        margin-left:5%;
+        margin-right:5%;
+        border:1px solid black;
+      }
+      img{
+        margin-bottom:5%;
+        margin-top:5%;
+        margin-left:5%;
+        border:2px solid black;
+        margin-bottom:-12px;
+        padding:3px;
+      }
+      a:link{
+        color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+      a:visited{
+        color:black
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+      a:hover, a:active {
+        color: red;
+      }
+      .class-one{
+          padding: 14px 25px;
+          text-align: center;
+      }
+    </style>
+  </head>
+  <body style="background-image: url(image.jpg);background-repeat: no-repeat; background-attachment: fixed;background-size: 100% 100%; ">
+    <header>
+      <h1>Lists of Github users</h1>
+       <h2><button id="showInfo">Load Github Users</button>
+         <button onclick="document.location='https://swadhin215.github.io/portfolio/'">Back to Portfolio</button></h2>
+    </header><hr>
+
+    <div id="showme"></div>
+    <script>
+        document.getElementById("showInfo").addEventListener('click', onProcess);
+
+        function onProcess(){
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://api.github.com/users', true);
+            req.onload = function() {
+                if(req.status==200){
+                  var people = JSON.parse(req.responseText)
+                  var display= '';
+                  for(var i in people){
+                   display +=
+                   '<div id="individual">' +
+                   '<img src="'+people[i].avatar_url+'" width="20%">'+
+                   '<div id="sub-individual"><ul>' +
+                   '<p><li>ID: <span id="class-one">'+people[i].id+'<span></li></p>' +
+                   '<p><li>Login: <span id="class-one">'+people[i].login+'<span></li></p>' +
+                   '<p><li>Repos: <a href="'+people[i].repos_url +'" target="_blank">'+people[i].repos_url +'</a></li></p>'+
+                   '<p><li>Type: <a href="'+people[i].type +'">'+people[i].type +'</a></li></p>'+
+                   '<p><li>Site Admin: <a href="'+people[i].site_admin +'">'+people[i].site_admin +'</a></li></p>'+
+                   '</ul></div>' +
+                   '</div>';
+                   document.getElementById('showme').innerHTML = display;
+                   }
+
+                }
+
+            }
+            req.send();
+        }
+    </script>
+  </body>
+</html>
